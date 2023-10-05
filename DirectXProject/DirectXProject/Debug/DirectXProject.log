@@ -1,0 +1,6 @@
+﻿  GraphicsClass.cpp
+  SystemClass.cpp
+  main.cpp
+  Generating Code...
+D:\study\DirectX11\DirectXProject\DirectXProject\SystemClass.cpp(255): warning C4715: 'SystemClass::MessageHandler': not all control paths return a value
+  DirectXProject.vcxproj -> D:\study\DirectX11\DirectXProject\Debug\DirectXProject.exe
