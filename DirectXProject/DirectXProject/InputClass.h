@@ -16,17 +16,17 @@ private:
 	/* constructro & destructor */
 public:
 	InputClass();
-	InputClass(const InputClass&);
+	InputClass(const InputClass& ref);
 	~InputClass();
 
 	/* interface */
 public:
-	void Initialize();					// 각 key 상태 초기화
+	void Initialize();							// 각 key 상태 초기화
 
-	void KeyDown(unsigned int);			// key가 눌렸을 때
-	void KeyUp(unsigned int);			// key가 떼어졌을 때
+	void KeyDown(unsigned int input);			// key가 눌렸을 때
+	void KeyUp(unsigned int input);				// key가 떼어졌을 때
 
-	bool IsKeyDown(unsigned int);		// key 상태 반환
+	bool IsKeyDown(unsigned int input);			// key 상태 반환
 };
 
 #endif

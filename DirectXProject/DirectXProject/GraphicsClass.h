@@ -7,7 +7,7 @@ Grphcis class
 #ifndef  _GRAPHICSCLASS_H_
 #define _GRAPHICSCLASS_H_
 
-#include <windows.h>
+#include "D3DClass.h"
 
 /* Graphics 관련 전역 설정 */
 const bool FULL_SCREEN = false;
@@ -17,21 +17,27 @@ const float SCREEN_NEAR = 0.1f;
 
 class GraphicsClass
 {
+	/* member varialbe */
+private:
+	D3DClass* m_D3D;
+
 	/* constructor & destructor */
 public:
 	GraphicsClass();
-	GraphicsClass(const GraphicsClass&);
+	GraphicsClass(const GraphicsClass& ref);
 	~GraphicsClass();
 
 	/* method */
 private:
-	bool Render();
+	bool Render();																// Rendering 수행
 
 	/* interface */
 public:
-	bool Initialize(int, int, HWND);
-	void Shutdown();
-	bool Frame();
+	bool Initialize(int ScreenWidth, int ScreenHeight, HWND hwnd);				// graphics 관련 객체 초기화
+	void Shutdown();															// grphaics 관련 객체 해제
+	bool Frame();																// 1 frame 내에서 일어나는 모든 작업 수행
+
+	D3DClass* GetDirect3DObject();												// D3D Class 반환
 };
 
 #endif

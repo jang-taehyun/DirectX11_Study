@@ -1,10 +1,12 @@
 #include "InputClass.h"
 
-InputClass::InputClass()
+InputClass::InputClass() :
+	m_keys()
 {
 }
 
-InputClass::InputClass(const InputClass&)
+InputClass::InputClass(const InputClass& ref) :
+	m_keys()
 {
 }
 

@@ -25,6 +25,7 @@
     <ClInclude Include="targetver.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="D3DClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DirectXProject.rc">
@@ -44,5 +45,6 @@
     <ClCompile Include="SystemClass.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="GraphicsClass.cpp" />
+    <ClCompile Include="D3DClass.cpp" />
   </ItemGroup>
 </Project>

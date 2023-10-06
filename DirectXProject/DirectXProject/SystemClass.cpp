@@ -9,7 +9,7 @@ SystemClass::SystemClass() :
 {
 }
 
-SystemClass::SystemClass(const SystemClass&) :
+SystemClass::SystemClass(const SystemClass& ref) :
 	m_ApplicationName(nullptr),
 	m_hinstance(NULL),
 	m_hwnd(NULL),
@@ -41,7 +41,7 @@ bool SystemClass::Frame()
 
 void SystemClass::InitializeWindows(int& ScreenWidth, int& ScreenHeight)
 {
-	WNDCLASSEX cex;				// 윈도우 클래스
+	WNDCLASSEX ex;				// 윈도우 클래스
 	DEVMODE dmScreenSetting;		// 렌더링 화면
 	int posX, posY;
 
@@ -55,21 +55,21 @@ void SystemClass::InitializeWindows(int& ScreenWidth, int& ScreenHeight)
 	m_ApplicationName = L"Engine";
 
 	/* 윈도우 클래스 초기화 */
-	cex.cbSize = sizeof(WNDCLASSEX);
-	cex.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-	cex.lpfnWndProc = WndProc;
-	cex.cbClsExtra = 0;
-	cex.cbWndExtra = 0;
-	cex.hInstance = m_hinstance;
-	cex.hIcon = LoadIcon(NULL, IDI_WINLOGO);
-	cex.hIconSm = cex.hIcon;
-	cex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	cex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	cex.lpszMenuName = NULL;
-	cex.lpszClassName = m_ApplicationName;
+	ex.cbSize = sizeof(WNDCLASSEX);
+	ex.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+	ex.lpfnWndProc = WndProc;
+	ex.cbClsExtra = 0;
+	ex.cbWndExtra = 0;
+	ex.hInstance = m_hinstance;
+	ex.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+	ex.hIconSm = ex.hIcon;
+	ex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	ex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+	ex.lpszMenuName = NULL;
+	ex.lpszClassName = m_ApplicationName;
 
 	/* 윈도우 클래스 등록 */
-	RegisterClassEx(&cex);
+	RegisterClassEx(&ex);
 
 	/* 모니터 해상도 얻어오기 */
 	ScreenWidth = GetSystemMetrics(SM_CXSCREEN);
@@ -244,14 +244,34 @@ LRESULT SystemClass::MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPAR
 			m_Input->KeyUp((unsigned int)wParam);
 			return 0;
 		}
+		case WM_LBUTTONDOWN:
+		{
+			char tmp1[128] = {};
+			int tmp2 = 0;
+			m_Graphics->GetDirect3DObject()->GetVideoCardIndo(tmp1, tmp2);
+
+			FILE* fp = nullptr;
+			fopen_s(&fp, "Graphic Card Info.txt", "wt");
+			if (fp)
+			{
+				fprintf_s(fp, "그래픽카드 이름 : %s\n", tmp1);
+				fprintf_s(fp, "그래픽카드 메모리 크기 : %d\n", tmp2);
+			}
+			fclose(fp);
+			return 0;
+		}
 		/* 윈도우 종료 메세지 처리 */
 		case WM_DESTROY:
+		{
 			PostQuitMessage(0);
 			break;
+		}
 		/* 나머지 메세지 처리 */
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 	}
+
+	return 0;
 }
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT umessage, WPARAM wParam, LPARAM lParam)
